@@ -24,6 +24,6 @@ public final class ContaCorrente extends Conta {
 
 	@Override
 	protected boolean possuiSaldoSuficiente(double valor) {
-		return super.saldo + this.limite >= valor;
+		return super.getSaldo() + this.limite >= valor;
 	}
 }

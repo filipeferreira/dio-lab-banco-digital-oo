@@ -11,7 +11,7 @@ public sealed abstract class Conta implements IConta permits ContaCorrente, Cont
 
 	protected int agencia;
 	protected int numero;
-	protected double saldo;
+	private double saldo;
 	protected Cliente cliente;
 
 	public Conta(Cliente cliente) {
@@ -22,6 +22,9 @@ public sealed abstract class Conta implements IConta permits ContaCorrente, Cont
 
 	@Override
 	public void sacar(double valor) throws SaldoInsuficienteException {
+		if (valor <= 0) {
+			throw new IllegalArgumentException("Valor de saque inválido");
+		}
 		if (!this.possuiSaldoSuficiente(valor)) {
 			throw new SaldoInsuficienteException();
 		}
@@ -30,11 +33,17 @@ public sealed abstract class Conta implements IConta permits ContaCorrente, Cont
 
 	@Override
 	public void depositar(double valor) {
+		if (valor <= 0) {
+			throw new IllegalArgumentException("Valor de depósito inválido");
+		}
 		saldo += valor;
 	}
 
 	@Override
 	public void transferir(double valor, IConta contaDestino) throws SaldoInsuficienteException {
+		if (valor <= 0) {
+			throw new IllegalArgumentException("Valor de transferência inválido");
+		}
 		this.sacar(valor);
 		contaDestino.depositar(valor);
 	}

@@ -8,7 +8,7 @@ public final class ContaPoupanca extends Conta {
 
 	@Override
 	protected boolean possuiSaldoSuficiente(double valor) {
-		return super.saldo >= valor;
+		return super.getSaldo() >= valor;
 	}
 
 	@Override

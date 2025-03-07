@@ -1,7 +1,10 @@
+package dio.me.labbancodigital.model;
+
+import dio.me.labbancodigital.exception.SaldoInsuficienteException;
 import lombok.Getter;
 
 @Getter
-public abstract class Conta implements IConta {
+public sealed abstract class Conta implements IConta permits ContaCorrente, ContaPoupanca {
 	
 	private static final int AGENCIA_PADRAO = 1;
 	private static int SEQUENCIAL = 1;
@@ -18,7 +21,10 @@ public abstract class Conta implements IConta {
 	}
 
 	@Override
-	public void sacar(double valor) {
+	public void sacar(double valor) throws SaldoInsuficienteException {
+		if (!this.possuiSaldoSuficiente(valor)) {
+			throw new SaldoInsuficienteException();
+		}
 		saldo -= valor;
 	}
 
@@ -28,10 +34,12 @@ public abstract class Conta implements IConta {
 	}
 
 	@Override
-	public void transferir(double valor, IConta contaDestino) {
+	public void transferir(double valor, IConta contaDestino) throws SaldoInsuficienteException {
 		this.sacar(valor);
 		contaDestino.depositar(valor);
 	}
+
+	protected abstract boolean possuiSaldoSuficiente(double valor);
 
 	protected void imprimirInfosComuns() {
 		System.out.println(String.format("Titular: %s", this.cliente.getNome()));

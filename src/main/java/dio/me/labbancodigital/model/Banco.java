@@ -1,3 +1,5 @@
+package dio.me.labbancodigital.model;
+
 import lombok.Data;
 
 import java.util.List;

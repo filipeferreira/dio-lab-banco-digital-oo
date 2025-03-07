@@ -1,8 +1,14 @@
+package dio.me.labbancodigital.model;
 
-public class ContaPoupanca extends Conta {
+public final class ContaPoupanca extends Conta {
 
 	public ContaPoupanca(Cliente cliente) {
 		super(cliente);
+	}
+
+	@Override
+	protected boolean possuiSaldoSuficiente(double valor) {
+		return super.saldo >= valor;
 	}
 
 	@Override
